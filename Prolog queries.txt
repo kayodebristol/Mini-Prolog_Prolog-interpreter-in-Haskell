@@ -1,0 +1,25 @@
+male(A).
+female(A).
+parent(A,B).
+parent(A,reem).
+parent(A,alex).
+father(A,B).
+daughterFather(D,F).
+daughterFather(amira,F).
+daughterFather(amira,alex).
+daughterFather(D,slim).
+daughterFather(remon,azmy).
+daughterFather(reem,azmy).
+
+findall(A, male(A), Bag).
+findall(A, female(A), Bag).
+findall((A,B), parent(A,B), Bag).
+findall(A, parent(A,reem), Bag).
+findall(A, parent(A,alex), Bag).
+findall((A,B), father(A,B), Bag).
+findall((D,F), daughterFather(D,F), Bag).
+findall(F, daughterFather(amira,F), Bag).
+findall(F, daughterFather(amira,alex), Bag).
+findall(D, daughterFather(D,slim), Bag).
+findall(_, daughterFather(remon,azmy), Bag).
+findall(_, daughterFather(reem,azmy), Bag).

@@ -1,0 +1,19 @@
+male(timmy).
+male(alex).
+male(slim).
+male(azmy).
+male(remon).
+female(amira).
+female(reem).
+female(wanda).
+
+parent(slim,amira).
+parent(wanda,timmy).
+parent(azmy,reem).
+parent(azmy,remon).
+father(X,Y):-
+	male(X),
+	parent(X,Y).
+daughterFather(X,Y):-
+	father(Y,X),
+	female(X).

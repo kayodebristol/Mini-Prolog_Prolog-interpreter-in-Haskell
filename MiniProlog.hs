@@ -1,3 +1,4 @@
+module MiniProlog where
 data Term = Cons String -- Term
 	   	| Var String deriving (Show, Eq)
 
@@ -30,23 +31,28 @@ noContradiction (Yes (x:xs)) (Yes list) = if (notBoundedToAnother x list) then n
 -- Combines 2 Solutions: taking care of duplicates. also If one Predicate never holds (No) neither will the other.
 -- Checks for duplicates but doesn't check for Contradictions (Variable bound to 2 different things)
 
-combineSol No No = No 
-combineSol (Yes x) No = No 
-combineSol No (Yes x) = No
+combineSol No _ = No 
+combineSol _ No = No 
 combineSol (Yes x) (Yes y) = combineSol1 (Yes x) (Yes x) (Yes y)
-
+-- "curList" Same as Accumelator in prolog
 combineSol1 (Yes curList) (Yes x) (Yes []) = Yes curList
 combineSol1 (Yes curList) (Yes x) (Yes (y:ys)) = if (elem y x) then combineSol1 (Yes curList) (Yes x) (Yes ys)
 												 else combineSol1 (Yes (curList ++ [y])) (Yes x) (Yes ys)
 
+
 -- Combines multiple Solutions from current Predicate (1st Argument) with the current Solution (2nd Argument)
 -- Checks for Contradictions
 
+
 combineSols [] list = []
+
 combineSols ((Yes a):xs) list = combineSols1 (Yes a) list ++ combineSols xs list
+
+
 
 combineSols1 (Yes a) (y:ys) = if noContradiction (Yes a) y then (combineSol (Yes a) y) : combineSols1 (Yes a) ys
 							  else combineSols1 (Yes a) ys
+
 combineSols1 (Yes a) [] = []
 
 -- Combines all given Lists of Solutions (each List comes from a Predicate)
@@ -59,7 +65,9 @@ combineAllSols [] = [Yes []]
 match (a, b) [] = []
 match (Var a, Cons b) ((Var y):ys) = if a == y then (Cons b):(match (Var a, Cons b) ys)
 									 else (Var y):(match(Var a, Cons b) ys)
+
 match (a, b) ((Cons y):ys) = (Cons y):(match(a, b) ys)
+
 match (Var a, Var b) ((Var y):ys) = if a == y then (Var b):(match (Var a, Var b) ys)
 									else (Var y):(match(Var a, Var b) ys)
 
@@ -74,34 +82,10 @@ applySolSubInPredicate solBindings (P name terms) = (P name (applySolSubInPredic
 applySolSubInPredicate1 [] terms = terms
 applySolSubInPredicate1 (x:xs) terms = applySolSubInPredicate1 xs ((match x) terms)
 
--- counts the Occurences of the element in the list
-
-countOccurences element [] = 0
-countOccurences element (x:xs) = if (element == x) then 1 + countOccurences element xs
-								 else countOccurences element xs
-
--- removes the duplicates in the given Solution
-
-removeDuplicates No = No
-removeDuplicates (Yes list) = Yes (removeDuplicates1 list)
-removeDuplicates1 (x:xs) = if (countOccurences x xs) >= 1 then removeDuplicates1 xs
-						   else x:(removeDuplicates1 xs)
-removeDuplicates1 [] = []
-
--- checks if the given Head Solution is valid (doesn't have a variable that's bounded to 2 different things)
-
-valid No = True
-valid (Yes list) = if valid1 list then True else False
-valid1 [] = True
-valid1 (x:xs) = if notBoundedToAnother x xs then valid1 xs else False
-
 -- tries to unify with the Head of a Rule in the database
 
-unifyWithHead (P query x) (P head y) = if (head == query && length(x) == length(y)) --then afterRemovingDuplicates
-									   then if valid (afterRemovingDuplicates) then afterRemovingDuplicates
-											else No
+unifyWithHead (P query x) (P head y) = if (head == query && length(x) == length(y)) then unifyWithHead1 (P query x) (P head y)
 									   else No
-									 where afterRemovingDuplicates = removeDuplicates (unifyWithHead1 (P query x) (P head y))
 									 
 unifyWithHead1 (P query []) (P head []) = Yes []
 unifyWithHead1 (P query ((Cons constant1):xs)) (P head ((Cons constant2):ys)) = if (constant1 == constant2)
@@ -138,7 +122,7 @@ allSolutions (P query x) kb = removeNoes (allSolutions1 (P query x) kb kb)
 allSolutions1 (P query x) [] kb = []
 allSolutions1 (P query terms1) ((P head terms2, body):ys) kb = if (body == []) then headSol : (allSolutions1 (P query terms1) ys kb)
 														 	   else if (headSol == No) then (allSolutions1 (P query terms1) ys kb)
-															   else (sortAllSols (addBindingsToSols (consBindingsWhereVarInQuery headSol terms1) (combineAllSols (allAllSolutions (applySolSubInBody headSol body) kb) ) ) terms1)
+															   else (addBindingsToSols (consBindingsWhereVarInQuery headSol terms1) (combineAllSols (allAllSolutions (applySolSubInBody headSol body) kb) ) )
 														 			++ (allSolutions1 (P query terms1) ys kb)
 															 where headSol = unifyWithHead (P query terms1) (P head terms2)
 
@@ -146,27 +130,6 @@ allSolutions1 (P query terms1) ((P head terms2, body):ys) kb = if (body == []) t
 
 allAllSolutions [] kb = []
 allAllSolutions (x:xs) kb = (allSolutions x kb):(allAllSolutions xs kb)
-
--- To sort the Solutions in the order they are given in the query
--- sortAllSols sorts all Solutions in a given List according to the order of the terms of the query
-
-sortAllSols (x:xs) terms = (sort x terms):(sortAllSols xs terms)
-sortAllSols [] terms = []
-
--- sort sorts one Solution
-
-sort No terms = No
-sort (Yes bindings) terms = Yes (sort1 bindings terms)
-
-sort1 bindings (x:xs) = if termInBinding bindings x == (Var "AA", Var "AA") then sort1 bindings xs
-						else (termInBinding bindings x):sort1 bindings xs
-sort1 bindings [] = []
-
--- finds the binding correspondin to the nth Term in the given Query, returns (Nil, Nil) if the nth Term was not Bound
-
-termInBinding ((Var a, Cons b):xs) term = if (Var a) == term then (Var a, Cons b)
-										  else termInBinding xs term
-termInBinding [] term = (Var "AA", Var "AA")
 
 -- Checks if the Variable of a Binding to Constant of the given Solution is in the terms of the Query and returns all such Variables
 

@@ -1,0 +1,31 @@
+allSolutions (P "male" [Var "A"]) kb
+allSolutions (P "female" [Var "A"]) kb
+allSolutions (P "parent" [Var "A", Var "B"]) kb
+allSolutions (P "parent" [Var "A", Cons "reem"]) kb
+allSolutions (P "parent" [Var "A", Cons "alex"]) kb
+allSolutions (P "father" [Var "A", Var "B"]) kb
+allSolutions (P "daughterFather" [Var "D", Var "F"]) kb
+allSolutions (P "daughterFather" [Cons "amira", Var "F"]) kb
+allSolutions (P "daughterFather" [Cons "amira", Cons "alex"]) kb
+allSolutions (P "daughterFather" [Var "D", Cons "slim"]) kb
+allSolutions (P "daughterFather" [Cons "remon", Cons "slim"]) kb
+allSolutions (P "daughterFather" [Cons "reem", Cons "azmy"]) kb
+
+combineSols [Yes [(Var "X", Cons "karim")], Yes [(Var "X", Cons "david")]] [Yes [(Var "Y", Cons "lynn")], (Yes [(Var "Y", Cons "brandon")])]
+
+applySolSubInBody (Yes [(Var "X",Cons "reem"),(Var "Y",Cons "azmy")]) [P "father" [Var "Y", Var "X"], P "female" [Var "X"]]
+
+applySolSubInBody (Yes [(Var "X",Var "A"),(Var "Y",Cons "reem")]) [P "male" [Var "X"], P "parent" [Var "X", Var "Y"]]
+
+allAllSolutions ([P "daughterFather" [Cons "amira",Var "A"]]) [(P "male" [Cons "timmy"],[]),(P "male" [Cons "alex"],[]),(P "male" [Cons "slim"],[]), (P "male" [Cons "azmy"],[]), (P "male" [Cons "remon"],[]), (P "female" [Cons "amira"],[]), (P "female" [Cons "reem"],[]), (P "female" [Cons "wanda"],[]), (P "parent" [Cons "slim", Cons "amira"],[]), (P "parent" [Cons "wanda", Cons "timmy"],[]), (P "parent" [Cons "azmy", Cons "reem"],[]), (P "parent" [Cons "azmy", Cons "remon"],[]), (P "father" [Var "X", Var "Y"], [P "male" [Var "X"], P "parent" [Var "X", Var "Y"]]), (P "daughterFather" [Var "X", Var "Y"], [P "father" [Var "Y", Var "X"], P "female" [Var "X"]])]
+
+
+allSolutions (P "grandfather" [Var "A",Var "B", Var "C"]) [(P "male" [Cons "timmy"],[]),(P "male" [Cons "alex"],[]),(P "male" [Cons "slim"],[]), (P "male" [Cons "azmy"],[]), (P "male" [Cons "remon"],[]), (P "female" [Cons "amira"],[]), (P "female" [Cons "reem"],[]), (P "female" [Cons "wanda"],[]), (P "parent" [Cons "slim", Cons "amira"],[]), (P "parent" [Cons "wanda", Cons "timmy"],[]), (P "parent" [Cons "azmy", Cons "reem"],[]), (P "parent" [Cons "azmy", Cons "remon"],[]), (P "male" [Cons "hesham"], []), (P "parent" [Cons "alex", Cons "slim"], []), (P "grandfather" [Var "X", Var "Y", Var "Z"], [P "father" [Var "X", Var "Y"], P "parent" [Var "Y", Var "Z"]]), (P "father" [Var "X", Var "Y"], [P"male" [Var "X"], P "parent" [Var "X", Var "Y"]])]
+
+
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Cons "joe", Var "X"], [P "f3" [Var "X"]]), (P "f3" [Cons "MAHA"], []), (P "f" [Cons "slim", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]]), (P "f3" [Cons "maha"],[])]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "W", Cons "maha"],[]),(P "f" [Cons "slim", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "W", Cons "maha"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Cons "maha", Cons "maha"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "X", Cons "maha"],[P "f3" [Var "X"]]), (P "f3" [Var "X"],[P "f4" [Var "X"]]), (P "f4" [Cons "maha"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "X", Cons "maha"],[P "f3" [Var "X"]]), (P "f3" [Var "X"],[P "f4" [Var "X"]]), (P "f4" [Var "X"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]

@@ -1,0 +1,55 @@
+allSolutions (P "male" [Var "A"]) kb
+[Yes [(Var "A",Cons "timmy")],Yes [(Var "A",Cons "alex")],Yes [(Var "A",Cons "slim")],Yes [(Var "A",Cons "azmy")],Yes [(Var "A",Cons "remon")]]
+allSolutions (P "female" [Var "A"]) kb
+[Yes [(Var "A",Cons "amira")],Yes [(Var "A",Cons "reem")],Yes [(Var "A",Cons "wanda")]]
+allSolutions (P "parent" [Var "A", Var "B"]) kb
+[Yes [(Var "A",Cons "slim"),(Var "B",Cons "amira")],Yes [(Var "A",Cons "wanda"),(Var "B",Cons "timmy")],Yes [(Var "A",Cons "azmy"),(Var "B",Cons "reem")],Yes [(Var "A",Cons "azmy"),(Var "B",Cons "remon")]]
+allSolutions (P "parent" [Var "A", Cons "reem"]) kb
+[Yes [(Var "A",Cons "azmy")]]
+allSolutions (P "parent" [Var "A", Cons "alex"]) kb
+[]
+allSolutions (P "father" [Var "A", Var "B"]) kb
+[Yes [(Var "A",Cons "slim"),(Var "B",Cons "amira")],Yes [(Var "A",Cons "azmy"),(Var "B",Cons "reem")],Yes [(Var "A",Cons "azmy"),(Var "B",Cons "remon")]]
+allSolutions (P "daughterFather" [Var "D", Var "F"]) kb
+[Yes [(Var "F",Cons "slim"),(Var "D",Cons "amira")],Yes [(Var "F",Cons "azmy"),(Var "D",Cons "reem")]]
+allSolutions (P "daughterFather" [Cons "amira", Var "F"]) kb
+[Yes [(Var "F",Cons "slim")]]
+allSolutions (P "daughterFather" [Cons "amira", Cons "alex"]) kb
+[]
+allSolutions (P "daughterFather" [Var "D", Cons "slim"]) kb
+[Yes [(Var "D",Cons "amira")]]
+allSolutions (P "daughterFather" [Cons "remon", Cons "slim"]) kb
+[]
+allSolutions (P "daughterFather" [Cons "reem", Cons "azmy"]) kb
+[Yes []]
+
+
+combineSols [Yes [(Var "X", Cons "karim")], Yes [(Var "X", Cons "david")]] [Yes [(Var "Y", Cons "lynn")], (Yes [(Var "Y", Cons "brandon")])]
+[Yes [(Var "X",Cons "karim"),(Var "Y",Cons "lynn")],Yes [(Var "X",Cons "karim"),(Var "Y",Cons "brandon")],Yes [(Var "X",Cons "david"),(Var "Y",Cons "lynn")],Yes [(Var "X",Cons "david"),(Var "Y",Cons "brandon")]]
+
+applySolSubInBody (Yes [(Var "X",Cons "reem"),(Var "Y",Cons "azmy")]) [P "father" [Var "Y", Var "X"], P "female" [Var "X"]]
+[P "father" [Cons "azmy",Cons "reem"],P "female" [Cons "reem"]]
+
+applySolSubInBody (Yes [(Var "X",Var "A"),(Var "Y",Cons "reem")]) [P "male" [Var "X"], P "parent" [Var "X", Var "Y"]]
+[P "male" [Var "A"],P "parent" [Var "A",Cons "reem"]]
+
+allAllSolutions ([P "daughterFather" [Cons "amira",Var "A"]]) [(P "male" [Cons "timmy"],[]),(P "male" [Cons "alex"],[]),(P "male" [Cons "slim"],[]), (P "male" [Cons "azmy"],[]), (P "male" [Cons "remon"],[]), (P "female" [Cons "amira"],[]), (P "female" [Cons "reem"],[]), (P "female" [Cons "wanda"],[]), (P "parent" [Cons "slim", Cons "amira"],[]), (P "parent" [Cons "wanda", Cons "timmy"],[]), (P "parent" [Cons "azmy", Cons "reem"],[]), (P "parent" [Cons "azmy", Cons "remon"],[]), (P "father" [Var "X", Var "Y"], [P "male" [Var "X"], P "parent" [Var "X", Var "Y"]]), (P "daughterFather" [Var "X", Var "Y"], [P "father" [Var "Y", Var "X"], P "female" [Var "X"]])]
+[[Yes [(Var "A",Cons "slim")]]]
+
+
+allSolutions (P "grandfather" [Var "A",Var "B", Var "C"]) [(P "male" [Cons "timmy"],[]),(P "male" [Cons "alex"],[]),(P "male" [Cons "slim"],[]), (P "male" [Cons "azmy"],[]), (P "male" [Cons "remon"],[]), (P "female" [Cons "amira"],[]), (P "female" [Cons "reem"],[]), (P "female" [Cons "wanda"],[]), (P "parent" [Cons "slim", Cons "amira"],[]), (P "parent" [Cons "wanda", Cons "timmy"],[]), (P "parent" [Cons "azmy", Cons "reem"],[]), (P "parent" [Cons "azmy", Cons "remon"],[]), (P "male" [Cons "hesham"], []), (P "parent" [Cons "alex", Cons "slim"], []), (P "grandfather" [Var "X", Var "Y", Var "Z"], [P "father" [Var "X", Var "Y"], P "parent" [Var "Y", Var "Z"]]), (P "father" [Var "X", Var "Y"], [P"male" [Var "X"], P "parent" [Var "X", Var "Y"]])]
+[Yes [(Var "A",Cons "alex"),(Var "B",Cons "slim"),(Var "C",Cons "amira")]]
+
+
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Cons "joe", Var "X"], [P "f3" [Var "X"]]), (P "f3" [Cons "MAHA"], []), (P "f" [Cons "slim", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]]), (P "f3" [Cons "maha"],[])]
+[Yes [(Var "D",Cons "joe"),(Var "A",Cons "slim"),(Var "B",Cons "mina")]]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "W", Cons "maha"],[]),(P "f" [Cons "slim", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+[Yes [(Var "A",Cons "slim"),(Var "B",Cons "mina")]]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "W", Cons "maha"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+[Yes [(Var "B",Cons "mina")]]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Cons "maha", Cons "maha"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+[Yes [(Var "D",Cons "maha"),(Var "B",Cons "mina")]]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "X", Cons "maha"],[P "f3" [Var "X"]]), (P "f3" [Var "X"],[P "f4" [Var "X"]]), (P "f4" [Cons "maha"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+[Yes [(Var "D",Cons "maha"),(Var "B",Cons "mina")]]
+allSolutions (P "f" [Var "A", Cons "maha", Var "B", Var "C", Var "D"]) [(P "f2" [Var "X", Cons "maha"],[P "f3" [Var "X"]]), (P "f3" [Var "X"],[P "f4" [Var "X"]]), (P "f4" [Var "X"],[]),(P "f" [Var "U", Var "X", Cons "mina", Var "Y", Var "Z"],[P "f2" [Var "Z", Cons "maha"]])]
+[Yes [(Var "B",Cons "mina")]]

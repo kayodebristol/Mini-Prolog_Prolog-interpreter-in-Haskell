@@ -1,0 +1,12 @@
+instance Eq Term where
+    (Cons a) == (Cons b) = a == b
+    (Var a) == (Var b) = a == b
+    _ == _ = False
+
+instance Eq Predicate where
+   (P a b) == (P c d) = a == c && b == d
+
+instance Eq Solution where
+    (Yes a) == (Yes b) = a == b
+    No == No = True
+    _ == _ = False
