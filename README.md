@@ -44,17 +44,17 @@ base. The function should output a list of type Solution representing all possib
 query. If the query fails (has no solutions at all), the output will be an empty list.
 
 ## Using the implemented functions
-Install Haskell Platform on your system.
-Run the console scripts "ghci - Load files in this directory.bat" if you're using Windows or "ghci - Load files in this directory.sh"
+* Install Haskell Platform on your system.
+* Run the console scripts "ghci - Load files in this directory.bat" if you're using Windows or "ghci - Load files in this directory.sh"
 if you're using Linux.
-These will just run ghci while setting the working directory to be the current directory, while disabling the
-"Tab character found here, ... Please use spaces instead." warning. And they will also load the 2 modules
-"MiniProlog" and "Main"
-Now to test the functions, you can try out the queries from "Queries.txt". For the 1st set of queries, the knowledge base (set of Prolog facts)
-is already set in a variable "kb" (when loading the "Main" module), as they are quite long. You can check what facts that "kb" stores by opening the file
+  * These will just run ghci while setting the working directory to be the current directory, while disabling the warning
+"Tab character found here, ... Please use spaces instead.". And they will also load the 2 modules
+"MiniProlog" and "Main".
+* Now to test the functions, you can try out the queries from "Queries.txt". For the 1st set of queries, the knowledge base (set of Prolog facts)
+is already set in a variable "kb" (when loading the "Main" module), as they are quite long.
+  * You can check what facts that "kb" stores by opening the file
 "father_daughterFather.pl", or opening "Main.hs" to check what Haskell stores in the variable upon loading the module Main.
-
-You can verify if the output is correct by checking the correct outputs in "Queries with solutions.txt".
+  * You can verify if your output is correct by checking the correct outputs in "Queries with solutions.txt".
 
 ## Notes
 "father_daughterFather.pl" is a Prolog file that contains exactly the kb that corresponds to the kb in the 1st set of queries, and
