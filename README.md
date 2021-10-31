@@ -60,6 +60,3 @@ is already set in a variable "kb" (when loading the "Main" module), as they are 
 "father_daughterFather.pl" is a Prolog file that contains exactly the kb that corresponds to the kb in the 1st set of queries, and
 "Prolog queries.txt" contains the same queries as the 1st set of queries but in the Prolog format, so you can test it out in 
 Prolog to verify that the output of the Haskell mini-Prolog interpreter is correct.
-
-The bulk of the project was completed in May 2014, with only minor updates since then.
-  
